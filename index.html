@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 🖤</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #02010a;
+    font-family: 'Poppins', sans-serif;
+    color: #ff7aa2;
+  }
+
+  /* IMPORTANT FIX: canvas must not block clicks */
+  canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.6s ease;
+  }
+
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px rgba(255,122,162,.6);
+  }
+
+  #yesBtn {
+    font-size: 2.6rem;
+    padding: 18px 65px;
+    border-radius: 70px;
+    border: none;
+    background: linear-gradient(135deg,#ff5a87,#ff2f6e);
+    color: white;
+    box-shadow: 0 15px 40px rgba(255,47,110,.6);
+    cursor: pointer;
+  }
+
+  #noBtn {
+    position: absolute;
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    background: #222;
+    color: #aaa;
+    border-radius: 20px;
+    border: none;
+  }
+
+  .petal {
+    position: fixed;
+    top: -20px;
+    z-index: 1;
+    pointer-events: none;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(120vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  #result {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.6s ease;
+  }
+
+  #result.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  #result p {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    text-shadow: 0 0 25px rgba(255,122,162,0.7);
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_8e6df7b4cc.mp3">
+</audio>
+
+<div class="container" id="main">
+  <h1>Will you be my Valentine? 🖤</h1>
+  <button id="yesBtn">YES</button>
+  <button id="noBtn">no</button>
+</div>
+
+<div class="container" id="result">
+  <p>I knew you'd say Yes 😘</p>
+</div>
+
+<script>
+/* ⭐ Starry background */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+resize();
+addEventListener("resize", resize);
+
+const stars = Array.from({ length: 120 }, () => ({
+  x: Math.random() * innerWidth,
+  y: Math.random() * innerHeight,
+  r: Math.random() * 1.5
+}));
+
+function drawStars() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "white";
+  stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* 🌹 Rose petals */
+function petal() {
+  const p = document.createElement("div");
+  p.className = "petal";
+  p.textContent = "🌹";
+  p.style.left = Math.random()*100 + "vw";
+  p.style.fontSize = Math.random()*18 + 14 + "px";
+  p.style.animationDuration = Math.random()*5 + 6 + "s";
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 11000);
+}
+setInterval(petal, 400);
+
+/* 😈 Buttons */
+const no = document.getElementById("noBtn");
+const yes = document.getElementById("yesBtn");
+const main = document.getElementById("main");
+const result = document.getElementById("result");
+const music = document.getElementById("music");
+
+function moveNo() {
+  no.style.left = Math.random()*80 + "%";
+  no.style.top = Math.random()*80 + "%";
+}
+no.addEventListener("mouseover", moveNo);
+document.addEventListener("touchstart", moveNo);
+
+yes.addEventListener("click", () => {
+  main.classList.add("hidden");
+  result.classList.add("show");
+  music.play().catch(()=>{});
+});
+
+moveNo();
+</script>
+
+</body>
+</html>
