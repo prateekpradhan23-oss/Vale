@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Valentine?</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #0b0b14;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #ff6b9a;
+  }
+
+  #screen {
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+
+  button {
+    font-size: 2rem;
+    padding: 15px 40px;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+  }
+
+  #yes {
+    background: #ff4d88;
+    color: white;
+  }
+
+  #no {
+    background: #333;
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-left: 20px;
+  }
+
+  #result {
+    display: none;
+    font-size: 2.2rem;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="screen">
+  <h1 id="question">Will you be my Valentine? ❤️</h1>
+  <div id="buttons">
+    <button id="yes">YES</button>
+    <button id="no">no</button>
+  </div>
+  <div id="result">I knew you'd say yes 😘</div>
+</div>
+
+<script>
+document.getElementById("yes").onclick = function () {
+  document.getElementById("question").style.display = "none";
+  document.getElementById("buttons").style.display = "none";
+  document.getElementById("result").style.display = "block";
+};
+
+document.getElementById("no").onmouseover = function () {
+  this.style.position = "absolute";
+  this.style.left = Math.random() * 80 + "%";
+  this.style.top = Math.random() * 80 + "%";
+};
+</script>
+
+</body>
+</html>
